@@ -5,7 +5,7 @@ int sort(int nums[]) {
     int i, j;
     for (i = 0; i < n; i++) {
         int turn = i & 2;
-    #pragma omp parallel for num_threads(n)
+    #pragma omp parallel for private(j) shared(nums) num_threads(n)
         for (j = turn; j < n - 1; j += 2)
             if (nums[j] > nums[j + 1]) {
                 int temp = nums[j];
@@ -18,7 +18,7 @@ int sort_des(int nums[]) {
     int i, j;
     for (i = 0; i < n; ++i) {
         int turn = i & 2;
-    #pragma omp parallel for num_threads(n)
+    #pragma omp parallel for private(j) shared(nums) num_threads(n)
         for (j = turn; j < n - 1; j += 2) {
             if (nums[j] < nums[j + 1]) {
                 int temp = nums[j];

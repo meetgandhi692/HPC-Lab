@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 #include<omp.h>
 
-#define n 8
+#define n 2
 const int N=300;
 using namespace std;
 
@@ -27,18 +27,18 @@ int main(){
         }
     }
 
-    // display(a);
-    // display(b);
+    display(a);
+    display(b);
     // display(c);
     double stime=omp_get_wtime();
-    #pragma omp parallel for reduction(+:c) num_threads(n)
+    #pragma omp parallel for collapse(2) num_threads(n)
     for(int i=0;i<N;i++){
         for(int j=0;j<N;j++){
             c[i][j]=a[i][j]+b[i][j];
         }
     }
     double etime=omp_get_wtime();
-    // display(c);
+    display(c);
 
     printf("Number of Indexes: %d\nNumber of threads: %d\nTime: %f\n",N,n,etime-stime);
 
