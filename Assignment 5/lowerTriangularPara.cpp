@@ -2,21 +2,27 @@
 #include <omp.h>
 #include<cstdlib>
 
+#define N 10
+#define n 6
 
-#define N 35 // Size of the matrices
-#define NUM_THREADS 8
+void display(int A[N][N]){
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            printf("%d ", A[i][j]);
+        }
+        printf("\n");
+    }
+}
 
 int main() {
-    int A[N][N];
-    int B[N][N];
-    int C[N][N];
+    int A[N][N], B[N][N], C[N][N], Cp[N][N];
 
     for(int i=0;i<N;i++){
         for(int j=0;j<N;j++){
             C[i][j]=0;
             if(i>=j){
-                A[i][j]=rand()%100;
-                B[i][j]=rand()%100;
+                A[i][j]=rand()%10;
+                B[i][j]=rand()%10;
             }else{
                 A[i][j]=0;
                 B[i][j]=0;
@@ -26,40 +32,31 @@ int main() {
 
     int i, j;
 
-    printf("Matrix A:\n");
-    for (i = 0; i < N; i++) {
-        for (j = 0; j < N; j++) {
-            printf("%d ", A[i][j]);
-        }
-        printf("\n");
-    }
+    // printf("Matrix A:\n");
+    // display(A);
+    
+    // printf("\nMatrix B:\n");
+    // display(B);
 
-    printf("\nMatrix B:\n");
-    for (i = 0; i < N; i++) {
-        for (j = 0; j < N; j++) {
-            printf("%d ", B[i][j]);
-        }
-        printf("\n");
-    }
-
-    double stime = omp_get_wtime();
-    omp_set_num_threads(NUM_THREADS);
-    #pragma omp parallel for private(i,j) shared(A,B,C)
+    double seqTime=omp_get_wtime();
     for (i = 0; i < N; i++) {
         for (j = 0; j <= i; j++) {
             C[i][j] = A[i][j] + B[i][j];
         }
     }
-
-    printf("\nResultant Matrix C (Sum of Lower Triangular Matrices A and B):\n");
+    seqTime=omp_get_wtime()-seqTime;
+    double paraTime=omp_get_wtime();
+    #pragma omp parallel for private(i,j) shared(A,B,C) num_threads(n)
     for (i = 0; i < N; i++) {
-        for (j = 0; j < N; j++) {
-            printf("%d ", C[i][j]);
+        for (j = 0; j <= i; j++) {
+            C[i][j] = A[i][j] + B[i][j];
         }
-        printf("\n");
     }
-    double etime = omp_get_wtime();
-    double time = etime - stime;
-    printf("\nTime taken is %f\n\n", time);
+    paraTime=omp_get_wtime()-paraTime;
+
+    // printf("\nResultant Matrix C (Matrix Multiplication of A and B):\n");
+    // display(C);
+
+    printf("Size: %d\nThreads: %d\nSeq Time: %f\nParallel Time: %f\n\n",N,n,seqTime, paraTime);
     return 0;
 }

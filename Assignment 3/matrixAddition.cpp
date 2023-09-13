@@ -2,7 +2,7 @@
 #include<omp.h>
 
 #define n 2
-const int N=300;
+const int N=250;
 using namespace std;
 
 void display(int a[N][N]){
@@ -27,8 +27,8 @@ int main(){
         }
     }
 
-    display(a);
-    display(b);
+    // display(a);
+    // display(b);
     // display(c);
     double stime=omp_get_wtime();
     #pragma omp parallel for collapse(2) num_threads(n)
@@ -38,7 +38,7 @@ int main(){
         }
     }
     double etime=omp_get_wtime();
-    display(c);
+    // display(c);
 
     printf("Number of Indexes: %d\nNumber of threads: %d\nTime: %f\n",N,n,etime-stime);
 

@@ -1,9 +1,8 @@
 #include <omp.h>
 #include <stdio.h>
 #include <stdlib.h>
-#define N 1000
-#define n 4
-
+#define N 10000000
+#define n 6
 int main() {
     int *a = (int *)malloc(sizeof(int) * N);
     int *c = (int *)malloc(sizeof(int) * N);
@@ -13,7 +12,7 @@ int main() {
     }
     double itime, ftime, exec_time;
     itime = omp_get_wtime();
-    #pragma omp parallel for schedule(dynamic, 2)
+    #pragma omp parallel for schedule(dynamic) num_threads(n)
     for (int i = 0; i < N; i++) {
         c[i] = a[i] + b;
     }

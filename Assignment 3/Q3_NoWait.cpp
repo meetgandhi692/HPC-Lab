@@ -13,6 +13,7 @@ void print(int i) {
 }
 
 int main() {
+    double time=omp_get_wtime();
     #pragma omp parallel num_threads(n)
     {
         #pragma omp for nowait
@@ -21,4 +22,6 @@ int main() {
         }
         hello_world();
     }
+    time=omp_get_wtime()-time;
+    printf("Time: %f\n",time);
 }

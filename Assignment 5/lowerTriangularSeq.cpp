@@ -3,7 +3,16 @@
 #include<cstdlib>
 
 
-#define N 35 // Size of the matrices
+#define N 300 // Size of the matrices
+
+void display(int A[N][N]){
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            printf("%d ", A[i][j]);
+        }
+        printf("\n");
+    }
+}
 
 int main() {
     int A[N][N];
@@ -25,21 +34,11 @@ int main() {
 
     int i, j;
 
-    printf("Matrix A:\n");
-    for (i = 0; i < N; i++) {
-        for (j = 0; j < N; j++) {
-            printf("%d ", A[i][j]);
-        }
-        printf("\n");
-    }
-
-    printf("\nMatrix B:\n");
-    for (i = 0; i < N; i++) {
-        for (j = 0; j < N; j++) {
-            printf("%d ", B[i][j]);
-        }
-        printf("\n");
-    }
+    // printf("Matrix A:\n");
+    // display(A);
+    
+    // printf("\nMatrix B:\n");
+    // display(B);
 
     double stime = omp_get_wtime();
     for (i = 0; i < N; i++) {
@@ -48,13 +47,8 @@ int main() {
         }
     }
 
-    printf("\nResultant Matrix C (Sum of Lower Triangular Matrices A and B):\n");
-    for (i = 0; i < N; i++) {
-        for (j = 0; j < N; j++) {
-            printf("%d ", C[i][j]);
-        }
-        printf("\n");
-    }
+    // printf("\nResultant Matrix C (Matrix Multiplication of A and B):\n");
+    // display(C);
     double etime = omp_get_wtime();
     double time = etime - stime;
     printf("\nTime taken is %f\n\n", time);
