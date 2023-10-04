@@ -5,7 +5,7 @@
 using namespace std;
 
 int main() {
-    int totalPoints = 10000;
+    int totalPoints = 100000000;
     int pointsInsideCircle = 0;
  
     srand(time(0)); 
