@@ -13,8 +13,9 @@ void display(int A[N][N]){
 }
 
 int main() {
-    int A[N][N],B[N][N],C[N][N],Cp[N][N];
-    for(int n=2;n<101;n++){
+    int A[N][N],B[N][N],C[N][N];
+    int n=1;
+    for(n=2;n<101;n++){
         double sptime = omp_get_wtime();
         srand(time(NULL));
         for(int i=0;i<N;i++){
@@ -34,7 +35,7 @@ int main() {
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 for (int k = 0; k < N; k++) {
-                    Cp[i][j] += A[i][k] * B[k][j];
+                    C[i][j] += A[i][k] * B[k][j];
                 }
             }
         }
