@@ -7,17 +7,17 @@ using namespace std;
 
 int main() {
     int n=1;
-    int totalPoints = 100000000; // Total number of points to generate
-    for(n=1;n<101;n++){
-        srand(time(0)); // Seed for random number generation
+    for(n=2;n<101;n++){
         double stime=omp_get_wtime();
+        int totalPoints = 100000000; // Total number of points to generate
+        srand(time(0));
         
         int pointsInsideCircle = 0;
 
         #pragma omp parallel for num_threads(n) reduction(+:pointsInsideCircle)
         for (int i = 0; i < totalPoints; ++i) {
-            double x = (double)rand() / RAND_MAX; // Random number between 0 and 1
-            double y = (double)rand() / RAND_MAX; // Random number between 0 and 1
+            double x = (double)rand() / RAND_MAX; 
+            double y = (double)rand() / RAND_MAX;
 
             if (x * x + y * y <= 1) {
                 pointsInsideCircle++;
