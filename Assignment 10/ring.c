@@ -12,7 +12,7 @@ int main(int argc, char **argv) {
 
     MPI_Status status;
 
-    double d = 483048.0;
+    double d = 4.2;
     int tag = 1;
 
     // calculating next rank
@@ -27,11 +27,11 @@ int main(int argc, char **argv) {
         printf("Rank %d: receiving from %d\n", rank, rank_prev);
         MPI_Recv(&d, 1, MPI_DOUBLE, rank_prev, tag, MPI_COMM_WORLD, &status);
     } else {
-        printf("Rank %d: receiving from %d\n", rank, rank_prev);
-        MPI_Recv(&d, 1, MPI_DOUBLE, rank_prev, tag, MPI_COMM_WORLD, &status);
-
         printf("Rank %d: sending to %d\n", rank, rank_next);
         MPI_Send(&d, 1, MPI_DOUBLE, rank_next, tag, MPI_COMM_WORLD);
+
+        printf("Rank %d: receiving from %d\n", rank, rank_prev);
+        MPI_Recv(&d, 1, MPI_DOUBLE, rank_prev, tag, MPI_COMM_WORLD, &status);
     }
 
     MPI_Finalize();
