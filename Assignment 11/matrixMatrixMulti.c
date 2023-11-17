@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define SIZE 16 /* Size of matrices */
+#define SIZE 32 /* Size of matrices */
 
 int A[SIZE][SIZE], B[SIZE][SIZE], C[SIZE][SIZE];
 
@@ -30,6 +30,7 @@ int main(int argc, char *argv[]){
     MPI_Status status;
 
     MPI_Init(&argc, &argv);
+    double start = MPI_Wtime();
 
     MPI_Comm_rank(MPI_COMM_WORLD, &myrank); /* who am i */
     MPI_Comm_size(MPI_COMM_WORLD, &P);      /* number of processors */
@@ -55,17 +56,19 @@ int main(int argc, char *argv[]){
     /* (actually, only the relevant stripe of A is sent to each process) */
 
     if (myrank == 0) {
+        printf("Running with %d tasks.\nMatrix Size: %d.\n", P,SIZE);
         fill_matrix(A);
         fill_matrix(B);
     }
 
-    double start = MPI_Wtime();
 
     MPI_Bcast(B, SIZE * SIZE, MPI_INT, 0, MPI_COMM_WORLD);
 
     MPI_Scatter(A[to], SIZE * SIZE / P, MPI_INT, A[from], SIZE * SIZE / P, MPI_INT, 0, MPI_COMM_WORLD);
 
-    printf("computing slice %d (from row %d to %d)\n", myrank, from, to - 1);
+    // printf("computing slice %d (from row %d to %d)\n", myrank, from, to - 1);        
+    // 0printf("Running with %d tasks.\nMatrix Size: %d.\n", np,N);
+
     for (i = from; i < to; i++)
         for (j = 0; j < SIZE; j++) {
             C[i][j] = 0;
@@ -77,7 +80,7 @@ int main(int argc, char *argv[]){
 
     if (myrank == 0) {
 
-        double finish = MPI_Wtime();
+        // double finish = MPI_Wtime();
 
         // printf("\n\n");
 
@@ -93,7 +96,8 @@ int main(int argc, char *argv[]){
 
         // printf("\n\n");
 
-        printf("Exection Time: %f\n", finish - start);
+        double finish = MPI_Wtime();
+        printf("Done in %f seconds.\n", finish - start);
     }
 
     MPI_Finalize();

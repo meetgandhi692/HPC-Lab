@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 // size of matrix
-#define N 100
+#define N 500
 
 int main(int argc, char *argv[]) {
     int np, rank, numworkers, rows, i, j, k;
@@ -25,7 +25,8 @@ int main(int argc, char *argv[]) {
 
     // master process, process with rank = 0
     if (rank == 0) {
-        printf("Running with %d tasks.\n", np);
+        double start = MPI_Wtime();
+        printf("Running with %d tasks.\nMatrix Size: %d.\n", np,N);
 
         // matrix a and b initialization 
         for (i = 0; i < N; i++)
@@ -36,7 +37,6 @@ int main(int argc, char *argv[]) {
             b[i] = 1;
 
         // start time
-        double start = MPI_Wtime();
 
         // Send matrix data to other worker processes
         rows_per_process = N / numworkers;
