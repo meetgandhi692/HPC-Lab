@@ -66,7 +66,7 @@ int main(int argc, char *argv[]){
 
     MPI_Scatter(A[to], SIZE * SIZE / P, MPI_INT, A[from], SIZE * SIZE / P, MPI_INT, 0, MPI_COMM_WORLD);
 
-    // printf("computing slice %d (from row %d to %d)\n", myrank, from, to - 1);        
+    printf("computing slice %d (from row %d to %d)\n", myrank, from, to - 1);        
     // 0printf("Running with %d tasks.\nMatrix Size: %d.\n", np,N);
 
     for (i = from; i < to; i++)

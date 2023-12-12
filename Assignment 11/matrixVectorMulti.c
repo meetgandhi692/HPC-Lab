@@ -36,8 +36,6 @@ int main(int argc, char *argv[]) {
         for (i = 0; i < N; i++)
             b[i] = 1;
 
-        // start time
-
         // Send matrix data to other worker processes
         rows_per_process = N / numworkers;
         extra = N % numworkers;
@@ -64,8 +62,7 @@ int main(int argc, char *argv[]) {
             source = i;
             MPI_Recv(&offset, 1, MPI_INT, source, tag, MPI_COMM_WORLD, &status);
             MPI_Recv(&rows, 1, MPI_INT, source, tag, MPI_COMM_WORLD, &status);
-            MPI_Recv(&c[offset], N, MPI_DOUBLE, source, tag, MPI_COMM_WORLD,
-                     &status);
+            MPI_Recv(&c[offset], N, MPI_DOUBLE, source, tag, MPI_COMM_WORLD,&status);
         }
 
         // print multiplication result
